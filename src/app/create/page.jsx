@@ -7,6 +7,8 @@ import isURL from "validator/lib/isURL"
 
 export default function CreatePage() {
 
+    // TODO: replace navbar "Create" with "App" which is a dropdown that includes: Create, Analytics, Dashboard, etc...
+
     const [inputVal, setInputVal] = useState("")
     const [isValid, setIsValid] = useState(false)
     const [isSubmitting, setIsSubmitting] = useState(false)

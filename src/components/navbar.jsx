@@ -4,9 +4,12 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem,
 import { NavigationMenu, NavigationMenuItem, NavigationMenuLink, NavigationMenuList, navigationMenuTriggerStyle } from "./ui/navigation-menu";
 import Link from "next/link";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
-import { LogOut, Settings, User } from "lucide-react";
+import { LogOut, Moon, Settings, Sun, User } from "lucide-react";
+import { useTheme } from "next-themes";
 
 export default function Navbar() {
+    const {theme, setTheme} = useTheme()
+
     return (
         <div className="flex justify-between items-center p-4">
             <NavigationMenu>
@@ -60,6 +63,20 @@ export default function Navbar() {
                                 <span>Settings</span>
                             </DropdownMenuItem>
                         </Link>
+                        <DropdownMenuItem className="cursor-pointer" onClick={() => {
+                            if (theme === "dark") {
+                                setTheme("light")
+                            } else if (theme === "light") {
+                                setTheme("dark")
+                            }
+                        }}>
+                        {
+                            theme === "dark" ? 
+                            <Moon className="mr-2 h-4 w-4" /> :
+                            <Sun className="mr-2 h-4 w-4" />
+                        }
+                            <span>Toggle theme</span>
+                        </DropdownMenuItem>
                     </DropdownMenuGroup>
                     <DropdownMenuSeparator/>
                     <Link href="/logout"> 
