@@ -1,10 +1,12 @@
+'use server'
+
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import Image from "next/image";
 import Link from "next/link";
 
-export default function Home() {
+export default async function Home() {
   return (
     <main>
       <section className="w-full py-12 md:py-24 lg:py-32 xl:py-48">
@@ -79,7 +81,7 @@ export default function Home() {
                 <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">Detailed Link Analytics</h2>
                 <p className="max-w-[600px] md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed text-muted-foreground">
                   Track the performance of your links with our comprehensive analytics dashboard, including
-                  click-through rates, device information, and geographic data.
+                  referral source, device information, and geographic data.
                 </p>
               </div>
             </div>
