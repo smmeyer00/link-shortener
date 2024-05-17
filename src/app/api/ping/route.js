@@ -1,3 +1,7 @@
+
 export async function GET() {
-    return Response.json({pingResponse: "ping"})
+    return Response.json({
+        pingResponse: "ping",
+        dotEnvTest: process.env.TEST_VAR
+    })
 }
