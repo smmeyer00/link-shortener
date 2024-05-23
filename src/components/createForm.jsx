@@ -3,16 +3,24 @@
 import { CircleCheck, CircleX, Loader2 } from "lucide-react";
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import isURL from "validator/lib/isURL";
-import { useSession } from "next-auth/react";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 export default function CreateForm() {
+    const router = useRouter();
+    const pathName = usePathname();
+    const searchParams = useSearchParams();
 
     const [inputVal, setInputVal] = useState("");
     const [isValid, setIsValid] = useState(false);
     const [isSubmitting, setIsSubmitting] = useState(false);
-    const session = useSession()
+
+    useEffect(() => {
+        setInputVal(searchParams.get("input") ?? "");
+        router.replace(pathName);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     const handleInputChange = (e) => {
         setIsValid(
@@ -24,14 +32,25 @@ export default function CreateForm() {
         console.log("input changed");
     };
 
-    const handleClick = () => {
-        // TODO: replace once API implemented
-        console.log("button click");
-        setIsSubmitting(true);
-        setTimeout(() => {
-            setIsSubmitting(false);
-        }, 3000);
-        // window.location.replace(inputVal)
+    const handleClick = async () => {
+        // // TODO: replace once API implemented
+        // console.log("button click");
+        // setIsSubmitting(true);
+        // setTimeout(() => {
+        //     setIsSubmitting(false);
+        // }, 3000);
+        // // window.location.replace(inputVal)
+        const response = await fetch('/api/create', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ fullUrl: inputVal }) 
+        });
+
+        const result = await response.json()
+        console.log(JSON.stringify(result, null, 2))
+        console.log(`status: ${response.status}`)
     };
 
     return (
