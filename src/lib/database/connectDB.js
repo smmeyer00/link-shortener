@@ -1,5 +1,7 @@
 import mongoose from "mongoose";
 
+// mongoose.set('autoIndex', false); TODO: set this before production to prevent slow performance
+
 if (!process.env.MONGODB_URI) {
   throw new Error("Please define the DATABASE_URL environment variable inside .env.local");
 }

@@ -24,7 +24,7 @@ export default async function Home() {
                                 track.
                             </p>
                         </div>
-                        <DemoForm/>
+                        <DemoForm />
                     </div>
                 </div>
             </section>

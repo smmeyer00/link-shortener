@@ -7,13 +7,13 @@ export default async function CreatePage() {
     const session = await getServerSession(authOptions);
 
     if (!session) {
-        redirect("/api/auth/signin")
+        redirect("/api/auth/signin");
     }
 
     return (
         <>
             {/* <pre>{JSON.stringify(session, null, 2)}</pre> */}
-            <div className="py-80 px-8 sm:px-16 md:px-32 lg:px-64 xl:px-96 2xl:mx-32 flex flex-col justify-center items-center">
+            <div className="pt-64 md:pt-72 px-8 sm:px-16 md:px-32 lg:px-64 xl:px-96 2xl:mx-32 flex flex-col justify-center items-center">
                 <CreateForm />
             </div>
         </>

@@ -6,6 +6,7 @@ import { Button } from "./ui/button";
 import { useEffect, useState } from "react";
 import isURL from "validator/lib/isURL";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useToast } from "./ui/use-toast";
 
 export default function CreateForm() {
     const router = useRouter();
@@ -16,8 +17,15 @@ export default function CreateForm() {
     const [isValid, setIsValid] = useState(false);
     const [isSubmitting, setIsSubmitting] = useState(false);
 
+    const { toast } = useToast();
+
     useEffect(() => {
         setInputVal(searchParams.get("input") ?? "");
+        setIsValid(
+            isURL(searchParams.get("input") ?? "", {
+                require_protocol: true,
+            })
+        );
         router.replace(pathName);
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
@@ -29,28 +37,38 @@ export default function CreateForm() {
             })
         );
         setInputVal(e.target.value.trim());
-        console.log("input changed");
     };
 
     const handleClick = async () => {
-        // // TODO: replace once API implemented
-        // console.log("button click");
-        // setIsSubmitting(true);
-        // setTimeout(() => {
-        //     setIsSubmitting(false);
-        // }, 3000);
-        // // window.location.replace(inputVal)
-        const response = await fetch('/api/create', {
-            method: 'POST',
+        if (!isValid || isSubmitting) {
+            return;
+        }
+        setIsSubmitting(true);
+
+        const response = await fetch("/api/create", {
+            method: "POST",
             headers: {
-                'Content-Type': 'application/json'
+                "Content-Type": "application/json",
             },
-            body: JSON.stringify({ fullUrl: inputVal }) 
+            body: JSON.stringify({ fullUrl: inputVal }),
         });
 
-        const result = await response.json()
-        console.log(JSON.stringify(result, null, 2))
-        console.log(`status: ${response.status}`)
+        const result = await response.json();
+        if (response.status == 200 && result.shortUrl) {
+            console.log("redirecting");
+            router.push(
+                `/app/create/success/${result.shortUrl}?fullUrl=${result.fullUrl}`
+            );
+        } else {
+            setIsSubmitting(false);
+            toast({
+                variant: "destructive",
+                title: "Uh oh! Something went wrong.",
+                description: "There was a problem with your request.",
+            });
+        }
+        console.log(JSON.stringify(result, null, 2));
+        console.log(`status: ${response.status}`);
     };
 
     return (
@@ -61,6 +79,11 @@ export default function CreateForm() {
                     pattern="[^\s]+"
                     value={inputVal}
                     onChange={(e) => handleInputChange(e)}
+                    onKeyDown={(e) => {
+                        if (e.key === "Enter") {
+                            handleClick();
+                        }
+                    }}
                     placeholder="Enter long URL here..."
                 />
                 <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
@@ -73,7 +96,7 @@ export default function CreateForm() {
             </div>
             <div>
                 <Button
-                    disabled={isSubmitting}
+                    disabled={isSubmitting || !isValid}
                     className="my-2 lg:px-8"
                     onClick={handleClick}
                 >

@@ -5,6 +5,7 @@ import Navbar from "@/components/navbar";
 import SessionProvider from "@/components/sessionProvider";
 import { getServerSession } from "next-auth";
 import { authOptions } from "./api/auth/[...nextauth]/route";
+import { Toaster } from "@/components/ui/toaster";
 
 
 const inter = Inter({ subsets: ["latin"] });
@@ -19,7 +20,7 @@ export default async function RootLayout({ children }) {
 
     return (
         <html lang="en">
-            <body className={inter.className}>
+            <body className={`${inter.className}`}>
                 <SessionProvider session={session}>
                 <ThemeProvider
                     attribute="class"
@@ -31,6 +32,7 @@ export default async function RootLayout({ children }) {
                     {children}
                 </ThemeProvider>
                 </SessionProvider>
+                <Toaster/>
             </body>
         </html>
     );
