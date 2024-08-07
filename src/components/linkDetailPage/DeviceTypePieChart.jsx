@@ -2,12 +2,14 @@
 
 import {
     Cell,
+    Label,
     Legend,
     Pie,
     PieChart,
     ResponsiveContainer,
     Tooltip,
 } from "recharts";
+import CustomTooltip from "./CustomTooltip";
 
 
 export default function DeviceTypePieChart({ height, data, dataKey, nameKey }) {
@@ -17,7 +19,7 @@ export default function DeviceTypePieChart({ height, data, dataKey, nameKey }) {
         <ResponsiveContainer height={height} width="100%">
             <PieChart>
                 <Legend layout="vertical" align="right" verticalAlign="top" />
-                <Tooltip />
+                <Tooltip content={<CustomTooltip isPieChart={true} animationDuration={100}/>}/>
                 <Pie
                     data={data}
                     dataKey={dataKey}

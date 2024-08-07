@@ -12,7 +12,6 @@ export function cn(...inputs) {
 async function _shortUrlExists(url) {
     try {
         const res = await Link.exists({ shortUrl: url }).exec();
-        console.log("Search for short url: ", JSON.stringify(res, null, 2));
         return Boolean(res);
     } catch (err) {
         console.error("Error checking if shortUrl exists: ", err);
@@ -32,4 +31,23 @@ export async function shortUrlGenerator() {
     } while (await _shortUrlExists(url));
 
     return url;
+}
+
+export class FF {
+    static getEnvVariable(key) {
+        return process.env[key] || null;
+    }
+
+    static isFeatureEnabled(feature) {
+        const value = process.env[feature] || null;
+        return value && value.toLowerCase() === "true";
+    }
+
+    static isLinkDetailPageAnalyticsEnabled() {
+        return this.isFeatureEnabled("NEXT_PUBLIC_LINK_DETAIL_PAGE_ANALYTICS_ENABLED");
+    }
+
+    static isAnalyticRecoringEnabled() {
+        return this.isFeatureEnabled("NEXT_PUBLIC_ANALYTIC_RECORDING_ENABLED");
+    }
 }

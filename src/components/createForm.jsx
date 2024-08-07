@@ -55,7 +55,6 @@ export default function CreateForm() {
 
         const result = await response.json();
         if (response.status == 200 && result.shortUrl) {
-            console.log("redirecting");
             router.push(
                 `/app/create/success/${result.shortUrl}?fullUrl=${result.fullUrl}`
             );
@@ -67,8 +66,6 @@ export default function CreateForm() {
                 description: "There was a problem with your request.",
             });
         }
-        console.log(JSON.stringify(result, null, 2));
-        console.log(`status: ${response.status}`);
     };
 
     return (

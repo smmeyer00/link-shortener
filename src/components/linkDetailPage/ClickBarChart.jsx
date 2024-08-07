@@ -8,6 +8,7 @@ import {
     XAxis,
     YAxis,
 } from "recharts";
+import CustomTooltip from "./CustomTooltip";
 
 export default function ClickBarChart({ data, height, xAxisKey, barKey }) {
 
@@ -16,7 +17,7 @@ export default function ClickBarChart({ data, height, xAxisKey, barKey }) {
             <BarChart margin={{left: 0, right: 5, top: 5, bottom: 5}} data={data}>
                 <XAxis dataKey={xAxisKey} />
                 <YAxis />
-                <Tooltip />
+                <Tooltip cursor={false}  content={<CustomTooltip isPieChart={false}/>} animationDuration={100}/>
                 {/* <Legend /> */}
                 <Bar dataKey={barKey} fill={`hsl(var(--primary))`} />
             </BarChart>

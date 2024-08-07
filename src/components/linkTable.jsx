@@ -13,7 +13,7 @@ import { Badge } from "./ui/badge";
 import { useRouter } from "next/navigation";
 
 export default function LinkTable({ tableData }) {
-    const router = useRouter()
+    const router = useRouter();
     return (
         // <div className="mx-6 bg-destructive text-center">Table component</div>
         <div className="rounded-md border">
@@ -34,7 +34,9 @@ export default function LinkTable({ tableData }) {
                         <TableRow
                             className="cursor-pointer"
                             key={linkEntry.shortUrl}
-                            onClick={() => {router.push(`/app/view/${linkEntry.shortUrl}`)}}
+                            onClick={() => {
+                                router.push(`/app/view/${linkEntry.shortUrl}`);
+                            }}
                         >
                             <TableCell className="font-medium">
                                 {linkEntry.shortUrl}
@@ -49,34 +51,40 @@ export default function LinkTable({ tableData }) {
                                 )}
                             </TableCell>
                             <TableCell>
-                                {new Date(linkEntry.dateCreated).toLocaleDateString(
-                                    "en-US",
-                                    {
-                                        year: "numeric",
-                                        month: "long",
-                                        day: "numeric",
-                                    }
-                                )}
+                                {new Date(
+                                    linkEntry.dateCreated
+                                ).toLocaleDateString("en-US", {
+                                    year: "2-digit",
+                                    month: "numeric",
+                                    day: "numeric",
+                                })}
                             </TableCell>
                             <TableCell>
-                                {new Date(linkEntry.dateExpires).toLocaleDateString(
-                                    "en-US",
-                                    {
-                                        year: "numeric",
-                                        month: "long",
-                                        day: "numeric",
-                                    }
-                                )}
+                                {new Date(
+                                    linkEntry.dateExpires
+                                ).toLocaleDateString("en-US", {
+                                    year: "2-digit",
+                                    month: "numeric",
+                                    day: "numeric",
+                                    hour: "2-digit",
+                                    minute: "2-digit",
+                                    timeZoneName: "shortGeneric",
+                                })}
                             </TableCell>
-                            
+
                             <TableCell className="flex justify-end">
-                                <Badge variant={
-                                    {
-                                        "Active": "",
-                                        "Inactive": "destructive",
-                                        "Archived": "secondary"
-                                    }[linkEntry.status]
-                                }> {linkEntry.status} </Badge>
+                                <Badge
+                                    variant={
+                                        {
+                                            Active: "",
+                                            Inactive: "destructive",
+                                            Archived: "secondary",
+                                        }[linkEntry.status]
+                                    }
+                                >
+                                    {" "}
+                                    {linkEntry.status}{" "}
+                                </Badge>
                             </TableCell>
                         </TableRow>
                     ))}

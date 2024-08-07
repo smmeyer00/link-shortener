@@ -16,10 +16,11 @@ const reqSchema = Joi.object({
 
 // future api route to create shortened link @ /api/create
 export async function POST(req) {
+    const linkValidInDays = 7;
+
     const { error, value: requestJson } = reqSchema.validate(await req.json());
-    console.log(JSON.stringify(requestJson, null, 2));
     if (error || !isURL(requestJson?.fullUrl)) {
-        // isURL impler than creating custom Joi validator
+        // isURL simpler than creating custom Joi validator
         return Response.json({ message: "Bad request" }, { status: 400 });
     }
 
@@ -33,6 +34,7 @@ export async function POST(req) {
         shortUrl: await shortUrlGenerator(),
         fullUrl: requestJson.fullUrl,
         dateCreated: Date.now(),
+        dateExpires: new Date().setDate(new Date().getDate() + linkValidInDays),
         numClicks: 0,
         userId: new mongoose.Types.ObjectId(session.user.id),
     });
@@ -41,9 +43,12 @@ export async function POST(req) {
     await link
         .save()
         .then((result) => {
-            console.log(`Link Save Result: ${JSON.stringify(result, null, 2)}`);
             response = Response.json(
-                { message: "Succesfully saved link", shortUrl: result.shortUrl, fullUrl: result.fullUrl },
+                {
+                    message: "Succesfully saved link",
+                    shortUrl: result.shortUrl,
+                    fullUrl: result.fullUrl,
+                },
                 { status: 200 }
             );
             // on success we need to redirect to something like a link detail page

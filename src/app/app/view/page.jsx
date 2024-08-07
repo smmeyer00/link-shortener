@@ -50,8 +50,6 @@ const testPreviewData = [
 const getData = async (userId) => {
     await connectDB()
     const res = await Link.find({userId: userId}).exec()
-    console.log(JSON.stringify(res, null, 2))
-    // return testPreviewData;
     return res.map(doc => doc.toObject())
 
 };

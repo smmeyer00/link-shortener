@@ -15,7 +15,7 @@ const linkSchema = new mongoose.Schema({
     shortUrl: {
         type: String,
         required: true,
-        minLength: 1, // generator will start with 5, smaller min for paid custom links in future. TODO: collision rate metrics
+        minLength: 1, // generator will start with 5, smaller min for paid custom links in future. // TODO: collision rate metrics
         maxLength: 8, // 62 ** 8 = 218,340,105,584,896: will never exhaust
         match: /^[a-zA-Z0-9]*$/,
         unique: true,
@@ -39,10 +39,6 @@ const linkSchema = new mongoose.Schema({
     dateExpires: {
         type: Date,
         required: true,
-        default: function() {
-            // 30 days in future. TODO: shorten for free users? and lengthen for paid
-            return (new Date()).setDate( (new Date()).getDate() + 30 ) 
-        }
     },
     numClicks: {
         type: Number,
@@ -62,6 +58,7 @@ const linkSchema = new mongoose.Schema({
     title: {
         type: String,
         required: false,
+        maxlength: 128,
         default: function() {
             if (this.fullUrl) {
                 try {
@@ -70,6 +67,14 @@ const linkSchema = new mongoose.Schema({
                 } catch (err) { console.log("Default title error: ", err) }
             }
             return "Untitled"
+        }
+    },
+    description: {
+        type: String,
+        required: false,
+        maxlength: 128, 
+        default: function() {
+            return "No description..."
         }
     },
     status: {
