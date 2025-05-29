@@ -1,9 +1,7 @@
 // Global type declarations for the project
 
 // Example of extending the Window interface
-declare interface Window {
-  // Add any global window properties here
-}
+type Window = object
 
 // Example of module augmentation for Next.js
 import { NextPage } from "next";
@@ -11,7 +9,7 @@ import { AppProps } from "next/app";
 import { ReactElement, ReactNode } from "react";
 
 declare module "next" {
-  export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
+  export type NextPageWithLayout<P = object, IP = P> = NextPage<P, IP> & {
     getLayout?: (page: ReactElement) => ReactNode;
   };
 }
