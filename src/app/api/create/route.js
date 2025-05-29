@@ -1,11 +1,11 @@
 import { getServerSession } from "next-auth";
 import { authOptions } from "../auth/[...nextauth]/route";
-const Link = require("@/lib/database/models/link");
+import Link from "@/lib/database/models/link";
 import mongoose from "mongoose";
 import connectDB from "@/lib/database/connectDB";
 import isURL from "validator/lib/isURL";
 import { shortUrlGenerator } from "@/lib/utils";
-const Joi = require("joi");
+import Joi from "joi";
 
 // maybe in future if there are a lot of endpoints, can move all req schemas to separate folder or file for readability
 const reqSchema = Joi.object({

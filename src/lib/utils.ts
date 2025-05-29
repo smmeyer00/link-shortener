@@ -2,9 +2,8 @@ import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 import mongoose from "mongoose";
 
-// We'll need to import the Link model in a type-safe way
-// This is just a placeholder - we'll update when converting the actual model
-const Link = require("@/lib/database/models/link");
+// Import Link model in a TypeScript-friendly way
+import Link from "@/lib/database/models/link";
 
 const shortUrlCharSet: string =
   "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
