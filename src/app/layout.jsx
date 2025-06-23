@@ -6,6 +6,7 @@ import SessionProvider from "@/components/sessionProvider";
 import { getServerSession } from "next-auth";
 import { authOptions } from "./api/auth/[...nextauth]/route";
 import { Toaster } from "@/components/ui/toaster";
+import { Analytics } from "@vercel/analytics/next"
 
 
 const inter = Inter({ subsets: ["latin"] });
@@ -30,6 +31,7 @@ export default async function RootLayout({ children }) {
                 >
                     <Navbar></Navbar>
                     {children}
+                    <Analytics />
                 </ThemeProvider>
                 </SessionProvider>
                 <Toaster/>
